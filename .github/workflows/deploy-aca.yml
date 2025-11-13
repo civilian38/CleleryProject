@@ -53,14 +53,20 @@ jobs:
       - name: Deploy to Azure Container App (Web)
         uses: azure/container-apps-deploy-action@v1
         with:
-          appName: ${{ secrets.ACA_WEB_APP_NAME }}
+          containerAppName: ${{ secrets.ACA_WEB_APP_NAME }}
           resourceGroup: ${{ secrets.ACA_RESOURCE_GROUP }}
           imageToDeploy: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          registryUrl: ${{ env.IMAGE_REGISTRY }}
+          registryUsername: ${{ github.repository_owner }}
+          registryPassword: ${{ secrets.GHCR_PAT }}
 
       # 6. [배포 2] Celery 컨테이너 앱 업데이트
       - name: Deploy to Azure Container App (Celery)
         uses: azure/container-apps-deploy-action@v1
         with:
-          appName: ${{ secrets.ACA_CELERY_APP_NAME }}
+          containerAppName: ${{ secrets.ACA_CELERY_APP_NAME }}
           resourceGroup: ${{ secrets.ACA_RESOURCE_GROUP }}
           imageToDeploy: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          registryUrl: ${{ env.IMAGE_REGISTRY }}
+          registryUsername: ${{ github.repository_owner }}
+          registryPassword: ${{ secrets.GHCR_PAT }}
