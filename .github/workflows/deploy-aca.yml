@@ -49,13 +49,13 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # 5. [배포 1] Web 컨테이너 앱 업데이트
+# 5. [배포 1] Web 컨테이너 앱 업데이트
       - name: Deploy to Azure Container App (Web)
         uses: azure/container-apps-deploy-action@v1
         with:
           appName: ${{ secrets.ACA_WEB_APP_NAME }}
           resourceGroup: ${{ secrets.ACA_RESOURCE_GROUP }}
-          image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          imageToDeploy: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       # 6. [배포 2] Celery 컨테이너 앱 업데이트
       - name: Deploy to Azure Container App (Celery)
@@ -63,4 +63,4 @@ jobs:
         with:
           appName: ${{ secrets.ACA_CELERY_APP_NAME }}
           resourceGroup: ${{ secrets.ACA_RESOURCE_GROUP }}
-          image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          imageToDeploy: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
